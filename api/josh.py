@@ -39,7 +39,7 @@ HTML = """<!doctype html>
     <h1>💝 Happy Teacher's Day ♥️</h1>
     <h2>To: Alvin</h2>
     <p>Thank you po sa lahat ng effort nyo maturuan lang kami😺.<br>
-    /p>
+    </p>
     <p style="margin-top:20px;">— Josh Pogi </p>
   </div>
 </body>
