@@ -9,7 +9,7 @@ HTML = """<!doctype html>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f3f4f6;
+      background: #133337;
       display: flex;
       justify-content: center;
       align-items: center;
