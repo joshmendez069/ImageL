@@ -5,7 +5,7 @@ import redis
 app = Flask(__name__)
 
 # Connect to Redis using REDIS_URL from Vercel
-redis_url = os.getenv("Josh")
+redis_url = os.getenv("REDIS_URL")
 r = redis.from_url(redis_url)
 
 # HTML Template
