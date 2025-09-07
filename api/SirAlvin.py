@@ -1,54 +1,58 @@
-# api/josh.py
-from http.server import BaseHTTPRequestHandler
+from flask import Flask, request, render_template_string, redirect
+import os
+import redis
 
-HTML = """<!doctype html>
-<html lang="en">
+app = Flask(__name__)
+
+# Connect to Redis using REDIS_URL from Vercel
+redis_url = os.getenv("REDIS_URL")
+r = redis.from_url(redis_url)
+
+# HTML Template
+HTML = """
+<!DOCTYPE html>
+<html>
 <head>
-  <meta charset="utf-8"/>
-  <title>Happy Teacher's Day</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #133337;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      margin: 0;
-    }
-    .card {
-      background: #fff;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-      text-align: center;
-      max-width: 400px;
-    }
-    h1 {
-      color: #4f46e5;
-      margin-bottom: 10px;
-    }
-    p {
-      color: #374151;
-      font-size: 16px;
-    }
-  </style>
+    <title>Happy Teacher's Day!</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f0f8ff; text-align: center; padding: 20px; }
+        h1 { color: #2c3e50; }
+        form { margin: 20px auto; max-width: 400px; }
+        input[type=text] { width: 80%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
+        button { padding: 10px 20px; background: #2c3e50; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #34495e; }
+        .comment-box { background: white; border: 1px solid #ddd; margin: 10px auto; padding: 10px; max-width: 400px; border-radius: 5px; }
+    </style>
 </head>
 <body>
-  <div class="card">
-    <h1>💝 Happy Teacher's Day ♥️</h1>
-    <h2>Sir Alvin</h2>
-    <p>Thank you po sa lahat ng effort nyo maturuan lang kami😺.<br>
-    </p>
-    <p style="margin-top:20px;">— Josh Pogi </p>
-  </div>
+    <h1>🎉 Happy Teacher's Day Alvin! 🎉</h1>
+    <p>Thank you for your guidance and wisdom. 💙</p>
+
+    <h2>Leave a Comment</h2>
+    <form method="POST" action="/add_comment">
+        <input type="text" name="comment" placeholder="Write your comment..." required>
+        <button type="submit">Post</button>
+    </form>
+
+    <h2>Comments</h2>
+    {% for c in comments %}
+        <div class="comment-box">{{ c }}</div>
+    {% else %}
+        <p>No comments yet. Be the first!</p>
+    {% endfor %}
 </body>
 </html>
 """
 
-class handler(BaseHTTPRequestHandler):
-    def do_GET(self):
-        self.send_response(200)
-        self.send_header("Content-type", "text/html; charset=utf-8")
-        self.end_headers()
-        self.wfile.write(HTML.encode("utf-8"))
+@app.route("/")
+def home():
+    comments = r.lrange("comments", 0, -1)  # Get all comments
+    comments = [c.decode("utf-8") for c in comments]  # Convert from bytes
+    return render_template_string(HTML, comments=comments)
+
+@app.route("/add_comment", methods=["POST"])
+def add_comment():
+    comment = request.form.get("comment")
+    if comment:
+        r.rpush("comments", comment)  # Save to Redis list
+    return redirect("/")
