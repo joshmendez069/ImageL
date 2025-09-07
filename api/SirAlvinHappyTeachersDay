@@ -1,1 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Teacher's Day</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Happy Teacher's Day!</h1>
+        <p>Thank you for all your hard work and dedication.</p>
+        <p class="signature">From your grateful students</p>
+    </div>
+</body>
+</html>
 
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f8ff; /* AliceBlue */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 500px;
+}
+
+h1 {
+    color: #4682b4; /* SteelBlue */
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+p {
+    color: #333333;
+    font-size: 1.1em;
+    line-height: 1.6;
+}
+
+.signature {
+    margin-top: 30px;
+    font-style: italic;
+    color: #6a5acd; /* SlateBlue */
+}
