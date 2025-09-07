@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teacher's Day Card</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #f3f4f6, #ffffff);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 900px;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      background: #fff;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    .controls {
+      padding: 20px;
+    }
+    .controls h1 {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .controls label {
+      display: block;
+      margin-top: 15px;
+      font-weight: 600;
+    }
+    .controls input, .controls textarea, .controls select {
+      margin-top: 5px;
+      width: 100%;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    .controls button {
+      margin-top: 15px;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .btn-primary { background: #4f46e5; color: #fff; }
+    .btn-secondary { background: #f3f4f6; }
+    .preview {
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .card {
+      width: 100%;
+      max-width: 500px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      overflow: hidden;
+      text-align: left;
+    }
+    .card-header {
+      background: #6366f1;
+      color: white;
+      padding: 20px;
+    }
+    .card-header h2 {
+      margin: 0;
+      font-size: 1.8rem;
+    }
+    .card-header p {
+      margin: 5px 0 0;
+    }
+    .card-body {
+      padding: 20px;
+    }
+    .card-body p {
+      font-size: 1rem;
+      line-height: 1.4;
+    }
+    .footer {
+      margin-top: 30px;
+      font-size: 0.8rem;
+      text-align: center;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="controls">
+      <h1>Teacher's Day Card Maker</h1>
+      <label>Teacher's Name</label>
+      <input type="text" id="teacher" value="Dear Teacher">
+
+      <label>Message</label>
+      <textarea id="message" rows="4">Thank you for inspiring me every day.</textarea>
+
+      <label>Emoji</label>
+      <input type="text" id="emoji" value="🌟">
+
+      <button class="btn-primary" onclick="updateCard()">Update Preview</button>
+      <button class="btn-secondary" onclick="resetCard()">Reset</button>
+    </div>
+    <div class="preview">
+      <div class="card" id="card">
+        <div class="card-header">
+          <h2><span id="emojiDisplay">🌟</span> Teacher's Day</h2>
+          <p id="teacherDisplay">Dear Teacher</p>
+        </div>
+        <div class="card-body">
+          <p id="messageDisplay">Thank you for inspiring me every day.</p>
+          <p style="margin-top:20px; font-weight:bold;">— Your student</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">Made with ❤️ — Teacher's Day</div>
+
+  <script>
+    function updateCard() {
+      document.getElementById("teacherDisplay").textContent = document.getElementById("teacher").value;
+      document.getElementById("messageDisplay").textContent = document.getElementById("message").value;
+      document.getElementById("emojiDisplay").textContent = document.getElementById("emoji").value;
+    }
+    function resetCard() {
+      document.getElementById("teacher").value = "Dear Teacher";
+      document.getElementById("message").value = "Thank you for inspiring me every day.";
+      document.getElementById("emoji").value = "🌟";
+      updateCard();
+    }
+  </script>
+</body>
+</html>
