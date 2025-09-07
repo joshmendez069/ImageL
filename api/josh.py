@@ -1,4 +1,4 @@
-# api/index.py
+# api/josh.py
 from http.server import BaseHTTPRequestHandler
 
 HTML = """<!doctype html>
@@ -38,9 +38,9 @@ HTML = """<!doctype html>
   <div class="card">
     <h1>💝 Happy Teacher's Day ♥️</h1>
     <h2>To: Alvin</h2>
-    <p>Thank you for inspiring me every day.<br>
-    You are appreciated and celebrated!</p>
-    <p style="margin-top:20px;">— Your student</p>
+    <p>Thank you po sa lahat ng effort nyo maturuan lang kami😺.<br>
+    /p>
+    <p style="margin-top:20px;">— Josh Pogi </p>
   </div>
 </body>
 </html>
