@@ -1,58 +1,125 @@
-from flask import Flask, request, render_template_string, redirect
-import os
-import redis
+# api/josh.py
+from http.server import BaseHTTPRequestHandler
 
-app = Flask(__name__)
-
-# Connect to Redis using REDIS_URL from Vercel
-redis_url = os.getenv("Josh")
-r = redis.from_url(redis_url)
-
-# HTML Template
-HTML = """
-<!DOCTYPE html>
-<html>
+HTML = """<!doctype html>
+<html lang="en">
 <head>
-    <title>Happy Teacher's Day!</title>
-    <style>
-        body { font-family: Arial, sans-serif; background: #f0f8ff; text-align: center; padding: 20px; }
-        h1 { color: #2c3e50; }
-        form { margin: 20px auto; max-width: 400px; }
-        input[type=text] { width: 80%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
-        button { padding: 10px 20px; background: #2c3e50; color: white; border: none; border-radius: 5px; cursor: pointer; }
-        button:hover { background: #34495e; }
-        .comment-box { background: white; border: 1px solid #ddd; margin: 10px auto; padding: 10px; max-width: 400px; border-radius: 5px; }
-    </style>
+  <meta charset="utf-8"/>
+  <title>Suprise: >>></title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #133337;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      color: #333;
+    }
+    .card {
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+      text-align: center;
+      max-width: 420px;
+      width: 100%;
+    }
+    h1 {
+      color: #4f46e5;
+      margin-bottom: 10px;
+    }
+    p {
+      font-size: 16px;
+    }
+    .comment-box {
+      margin-top: 20px;
+      text-align: left;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+    button {
+      background: #4f46e5;
+      color: white;
+      padding: 8px 14px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #3730a3;
+    }
+    .comments-list {
+      margin-top: 15px;
+      background: #f9fafb;
+      padding: 10px;
+      border-radius: 8px;
+      max-height: 150px;
+      overflow-y: auto;
+      font-size: 14px;
+    }
+    .comment {
+      padding: 6px 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .comment:last-child {
+      border-bottom: none;
+    }
+    .comment strong {
+      color: #111827;
+    }
+  </style>
 </head>
 <body>
-    <h1>🎉 Happy Teacher's Day Alvin! 🎉</h1>
-    <p>Thank you for your guidance and wisdom. 💙</p>
+  <div class="card">
+    <h1>💝 Happy Teacher's Day ♥️</h1>
+    <h2>Sir Alvin</h2>
+    <p>Thank you po sa lahat ng effort nyo maturuan lang kami 😺.</p>
+    <p style="margin-top:20px;">— Josh Pogi</p>
 
-    <h2>Leave a Comment</h2>
-    <form method="POST" action="/add_comment">
-        <input type="text" name="comment" placeholder="Write your comment..." required>
-        <button type="submit">Post</button>
-    </form>
+    <div class="comment-box">
+      <h3>Leave a Comment</h3>
+      <input id="nameInput" type="text" placeholder="Your name">
+      <textarea id="commentInput" rows="3" placeholder="Write your comment..."></textarea>
+      <button onclick="addComment()">Post Comment</button>
 
-    <h2>Comments</h2>
-    {% for c in comments %}
-        <div class="comment-box">{{ c }}</div>
-    {% else %}
-        <p>No comments yet. Be the first!</p>
-    {% endfor %}
+      <div class="comments-list" id="commentsList">
+        <!-- Comments will show here -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function addComment() {
+      const name = document.getElementById('nameInput').value.trim();
+      const comment = document.getElementById('commentInput').value.trim();
+      if (name === '' || comment === '') return;
+
+      const list = document.getElementById('commentsList');
+      const div = document.createElement('div');
+      div.className = 'comment';
+      div.innerHTML = '<strong>' + name + ':</strong> ' + comment;
+      list.appendChild(div);
+
+      // clear inputs
+      document.getElementById('nameInput').value = '';
+      document.getElementById('commentInput').value = '';
+    }
+  </script>
 </body>
 </html>
 """
 
-@app.route("/")
-def home():
-    comments = r.lrange("comments", 0, -1)  # Get all comments
-    comments = [c.decode("utf-8") for c in comments]  # Convert from bytes
-    return render_template_string(HTML, comments=comments)
-
-@app.route("/add_comment", methods=["POST"])
-def add_comment():
-    comment = request.form.get("comment")
-    if comment:
-        r.rpush("comments", comment)  # Save to Redis list
-    return redirect("/")
+class handler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.send_header("Content-type", "text/html; charset=utf-8")
+        self.end_headers()
+        self.wfile.write(HTML.encode("utf-8"))
