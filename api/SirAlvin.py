@@ -37,7 +37,7 @@ HTML = """<!doctype html>
 <body>
   <div class="card">
     <h1>💝 Happy Teacher's Day ♥️</h1>
-    <h2>To: SirAlvin</h2>
+    <h2>SirAlvin</h2>
     <p>Thank you po sa lahat ng effort nyo maturuan lang kami😺.<br>
     </p>
     <p style="margin-top:20px;">— Josh Pogi </p>
